@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Square : Environment {
-
+	
 	private GameObject player;
 	private Transform playerTr;
 
@@ -16,15 +17,16 @@ public class Square : Environment {
 
 	protected override void OnMouseDown()
 	{
-		if (!gameManager.movementOn) {
+		if (!EventSystem.current.IsPointerOverGameObject ()) {
+			if (!gameManager.movementOn) {
 			
-			Debug.Log ("Click on square");
+				Debug.Log ("Click on square");
 
-			base.OnMouseDown ();
+				base.OnMouseDown ();
 
-			enableTravelSearch ();
+				enableTravelSearch ();
+			}
 		}
-
 	}
 
 	protected void enableTravelSearch()

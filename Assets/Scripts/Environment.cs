@@ -7,14 +7,13 @@ public abstract class Environment : MonoBehaviour {
 
 	public GameObject select;
 
-	protected Button travelButton;
 	protected GameManager gameManager;
+	protected Button travelButton;
 
 	protected virtual void Start () 
 	{
 		gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		travelButton = GameObject.Find("Travel_Button").GetComponent<Button> ();
-
 	}
 
 	//if there is a click on collider

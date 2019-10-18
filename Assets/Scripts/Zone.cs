@@ -1,24 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Zone : Environment {
 
 	//if there is a click on collider
 	protected override void OnMouseDown()
 	{
-		if (!gameManager.movementOn) {
+		if (!EventSystem.current.IsPointerOverGameObject ()) {
+			if (!gameManager.movementOn) {
 			
-			Debug.Log ("Click on zone");
+				Debug.Log ("Click on zone");
 
-			base.OnMouseDown ();
+				base.OnMouseDown ();
 
-			highlightZone ();
+				highlightZone ();
 
-			//deactivate Travel Button;
-			travelButton.interactable = false;
+				//deactivate Travel Button;
+				travelButton.interactable = false;
+			}
 		}
-
 	}
 
 	//Increase layer and transparency
