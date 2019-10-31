@@ -5,6 +5,17 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
+	public float health = 40;
+	public Text healthDisplay;
+	public float will = 30;
+	public Text willDisplay;
+	public float energy = 10;
+	public Text energyDisplay;
+	public float food = 4;
+	public Text foodDisplay;
+	public float water = 8;
+	public Text waterDisplay;
+
 	public float speed;
 	public Button travelButton;
 
@@ -15,6 +26,11 @@ public class Player : MonoBehaviour {
 	{
 		gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		animatorPlayer = GetComponent<Animator> ();
+		healthDisplay.text = string.Format("{0}/50", health);
+		willDisplay.text = string.Format("{0}/50", will);
+		energyDisplay.text = string.Format("{0}/50", energy);
+		foodDisplay.text = string.Format("{0}/5", food);
+		waterDisplay.text = string.Format("{0}/10", water);
 	}
 
 	public void LaunchMove()
