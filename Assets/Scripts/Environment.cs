@@ -38,6 +38,9 @@ public abstract class Environment : MonoBehaviour {
 
 		//Save selected zone 
 		gameManager.selectedEnvironment = gameObject;
+
+		//Update description in environment panel
+		gameManager.UpdateUIEnvironmentDescription();
 	}
 
 	//Reset transparency and layer to starting value

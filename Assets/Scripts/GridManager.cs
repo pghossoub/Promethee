@@ -90,10 +90,8 @@ public class GridManager : MonoBehaviour {
 
 					int k = 0;
 					foreach (TileList tilelist in squareZoneMatchingGrid){
-						if (tilelist.tiles[0].name == parentZoneTile.name) {
-							Debug.Log ("Match in matching grid");
+						if (tilelist.tiles[0].name == parentZoneTile.name)
 							break;
-						}
 						else
 							k++;
 					}

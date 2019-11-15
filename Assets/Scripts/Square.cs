@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Square : Environment {
-	
+
 	private GameObject player;
 	private Transform playerTr;
 
