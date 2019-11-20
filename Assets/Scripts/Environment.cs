@@ -23,7 +23,7 @@ public abstract class Environment : MonoBehaviour {
 		if (gameManager.selectedEnvironment != null) {
 			
 			if (gameManager.selectedEnvironment.gameObject.GetComponent<Zone>() != null) {
-				resetZoneDisplay ();
+				ResetZoneDisplay ();
 				//gameManager.selectedEnvironment = null;
 			}
 		}
@@ -44,7 +44,7 @@ public abstract class Environment : MonoBehaviour {
 	}
 
 	//Reset transparency and layer to starting value
-	void resetZoneDisplay()
+	void ResetZoneDisplay()
 	{
 		SpriteRenderer selectedSprite = gameManager.selectedEnvironment.GetComponent<SpriteRenderer> ();
 		selectedSprite.sortingOrder = 0;

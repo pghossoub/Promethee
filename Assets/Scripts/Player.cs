@@ -11,16 +11,18 @@ public class Player : MonoBehaviour {
 	public Text willDisplay;
 	public float energy = 10;
 	public Text energyDisplay;
-	public float food = 4;
+	public float food = 2;
 	public Text foodDisplay;
-	public float water = 8;
+	public float water = 2;
 	public Text waterDisplay;
 
 	public float speed;
 	public Button travelButton;
+	public GameObject gameOverPanel;
 
 	private GameManager gameManager;
 	private Animator animatorPlayer;
+	private bool death = false;
 
 	void Start () 
 	{
@@ -39,17 +41,25 @@ public class Player : MonoBehaviour {
 
 		travelButton.interactable = false;
 
-		Vector3 targetPosition = gameManager.selectedEnvironment.gameObject.GetComponent<Transform> ().position;
+		death = DrinkWater ();
 
-		float step =  speed * Time.deltaTime;
+		if (death)
+			GameOver ();
+		
+		else {
 
-		facingAnimation (targetPosition - transform.position);
+			Vector3 targetPosition = gameManager.selectedEnvironment.gameObject.GetComponent<Transform> ().position;
 
-		StartCoroutine (Move (targetPosition, step));
+			float step = speed * Time.deltaTime;
+
+			FacingAnimation (targetPosition - transform.position);
+
+			StartCoroutine (Move (targetPosition, step));
+		}
 
 	}
 
-	void facingAnimation(Vector3 direction)
+	void FacingAnimation(Vector3 direction)
 	{
 		if(direction.x > 0)
 			animatorPlayer.SetTrigger ("facingRight");
@@ -67,5 +77,37 @@ public class Player : MonoBehaviour {
 		}
 		animatorPlayer.SetTrigger ("facingDown");
 		gameManager.movementOn = false;
+	}
+
+	bool DrinkWater()
+	{
+		if (water > 0){
+			LoseWater (1);
+			return false;
+		}
+		else{
+			return LoseHealth(10);
+		}
+	}
+
+	void LoseWater(int loss)
+	{
+		water -= loss;
+		waterDisplay.text = string.Format ("{0}/50", water);
+	}
+
+	bool LoseHealth(int loss)
+	{
+		health -= loss;
+		healthDisplay.text = string.Format ("{0}/50", health);
+		if (health <= 0) {
+			return true;
+		}
+		return false;
+	}
+
+	void GameOver()
+	{
+		gameOverPanel.SetActive (true);
 	}
 }

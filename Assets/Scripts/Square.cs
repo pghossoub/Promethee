@@ -19,36 +19,29 @@ public class Square : Environment {
 	{
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
 			if (!gameManager.movementOn) {
-			
-				Debug.Log ("Click on square");
 
 				base.OnMouseDown ();
 
-				enableTravelSearch ();
+				EnableTravelSearch ();
 			}
 		}
 	}
 
-	protected void enableTravelSearch()
+	protected void EnableTravelSearch()
 	{
 		float distanceX = transform.position.x - playerTr.position.x;
 		float distanceY = transform.position.y- playerTr.position.y;
 
 		if ((distanceX == 0) && (distanceY == 0)) {
-			Debug.Log ("Travel impossible, search possible");
-			//Debug.Log ("DistX " + distanceX.ToString());
-			//Debug.Log ("DistY " + distanceY.ToString());
+
 			travelButton.interactable = false;
 
 		}
 		else if ((distanceX >= -10 && distanceX <= 10) && (distanceY >= -10 && distanceY <= 10)) {
-
-			Debug.Log ("Travel possible");
 			//activate Travel Button
 			travelButton.interactable = true;
 
 		} else {
-			Debug.Log ("Travel impossible");
 			//deactivate Travel Button
 			travelButton.interactable = false;
 		}

@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour {
 	void Start () 
 	{
 		GridManager gridManagerScript = gridManager.GetComponent<GridManager> ();
-		gridManagerScript.createZoneGrid ();
-		gridManagerScript.createSquareGrid ();
+		gridManagerScript.CreateZoneGrid ();
+		gridManagerScript.CreateSquareGrid ();
 	}
 
 	public void UpdateUIEnvironmentDescription()

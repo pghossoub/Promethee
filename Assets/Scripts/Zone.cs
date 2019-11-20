@@ -10,12 +10,10 @@ public class Zone : Environment {
 	{
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
 			if (!gameManager.movementOn) {
-			
-				Debug.Log ("Click on zone");
 
 				base.OnMouseDown ();
 
-				highlightZone ();
+				HighlightZone ();
 
 				//deactivate Travel Button;
 				travelButton.interactable = false;
@@ -26,7 +24,7 @@ public class Zone : Environment {
 	//Increase layer and transparency
 	//Sorting Order = 3 
 	//because 0 = default zone, 1= default square, 2= border of selected square, 4 = order of selected zone and 5 = Player
-	void highlightZone()
+	void HighlightZone()
 	{
 		SpriteRenderer selectedSprite = GetComponent<SpriteRenderer> ();
 		selectedSprite.sortingOrder = 3;

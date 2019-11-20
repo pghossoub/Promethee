@@ -32,7 +32,7 @@ public class GridManager : MonoBehaviour {
 		}
 	}
 
-	public void createZoneGrid()
+	public void CreateZoneGrid()
 	{
 		GameObject zoneTile;
 		for (int i = 0; i < zoneGridSize; i++) {
@@ -42,7 +42,7 @@ public class GridManager : MonoBehaviour {
 				if (i == 0 || j == 0 || i == zoneGridSize - 1 || j == zoneGridSize - 1)
 					zoneTile = zoneBeachTile;
 				else
-					zoneTile = chooseRandomZoneTile (i, j);
+					zoneTile = ChooseRandomZoneTile (i, j);
 				
 				zonePosX = i * 10 + 5;
 				zonePosY = j * 10 + 5;
@@ -52,7 +52,7 @@ public class GridManager : MonoBehaviour {
 		}
 	}
 
-	GameObject chooseRandomZoneTile(int i, int j)
+	GameObject ChooseRandomZoneTile(int i, int j)
 	{
 		float randomValue = UnityEngine.Random.value;
 		if (randomValue <= 0.33 && i > 1 && i < zoneGridSize - 1) 
@@ -68,7 +68,7 @@ public class GridManager : MonoBehaviour {
 		}
 	}
 
-	public void createSquareGrid()
+	public void CreateSquareGrid()
 	{
 		squareGridSize = zoneGridSize - 1;
 		GameObject squareTile;
@@ -95,7 +95,6 @@ public class GridManager : MonoBehaviour {
 						else
 							k++;
 					}
-					Debug.Log ("k = " + k);
 					int randomIndex= UnityEngine.Random.Range(1, squareZoneMatchingGrid[k].tiles.Length);
 					squareTile = squareZoneMatchingGrid [k].tiles [randomIndex];
 				}
