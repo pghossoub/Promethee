@@ -5,15 +5,20 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
-	public float health = 40;
+	public int health = 40;
+	public int maxHealth = 50;
 	public Text healthDisplay;
-	public float will = 30;
+	public int will = 30;
+	public int maxWill = 50;
 	public Text willDisplay;
-	public float energy = 10;
+	public int energy = 10;
+	public int maxEnergy = 50;
 	public Text energyDisplay;
-	public float food = 2;
+	public int food = 2;
+	public int maxFood = 5;
 	public Text foodDisplay;
-	public float water = 2;
+	public int water = 2;
+	public int maxWater = 10;
 	public Text waterDisplay;
 
 	public float speed;
@@ -28,11 +33,11 @@ public class Player : MonoBehaviour {
 	{
 		gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		animatorPlayer = GetComponent<Animator> ();
-		healthDisplay.text = string.Format("{0}/50", health);
-		willDisplay.text = string.Format("{0}/50", will);
-		energyDisplay.text = string.Format("{0}/50", energy);
-		foodDisplay.text = string.Format("{0}/5", food);
-		waterDisplay.text = string.Format("{0}/10", water);
+		healthDisplay.text = string.Format("{0}/{1}", health, maxHealth);
+		willDisplay.text = string.Format("{0}/{1}", will, maxWill);
+		energyDisplay.text = string.Format("{0}/{1}", energy, maxEnergy);
+		foodDisplay.text = string.Format("{0}/{1}", food, maxFood);
+		waterDisplay.text = string.Format("{0}/{1}", water, maxWater);
 	}
 
 	public void LaunchMove()
@@ -82,7 +87,7 @@ public class Player : MonoBehaviour {
 	bool DrinkWater()
 	{
 		if (water > 0){
-			LoseWater (1);
+			ManageWater (-1);
 			return false;
 		}
 		else{
@@ -90,24 +95,80 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	void LoseWater(int loss)
+	public void ManageEnergy(int val)
 	{
-		water -= loss;
-		waterDisplay.text = string.Format ("{0}/50", water);
+		if (energy + val > maxEnergy)
+			energy = maxEnergy;
+		else if (energy + val < 0)
+			energy = 0;
+		else
+			energy += val;
+		energyDisplay.text = string.Format("{0}/{1}", energy, maxEnergy);
 	}
 
-	bool LoseHealth(int loss)
+	public void ManageWater(int val)
+	{
+		if (water + val > maxWater)
+			water = maxWater;
+		else if (water + val < 0)
+			water = 0;
+		else
+			water += val;
+		waterDisplay.text = string.Format("{0}/{1}", water, maxWater);
+	}
+
+	public void ManageFood(int val)
+	{
+		if (food + val > maxFood)
+			food = maxFood;
+		else if (food + val < 0)
+			food = 0;
+		else
+			food += val;
+		foodDisplay.text = string.Format("{0}/{1}", food, maxFood);
+	}
+
+	public void GainHealth(int val)
+	{
+		if (health + val > maxHealth)
+			health = maxHealth;
+		else
+			health += val;
+		healthDisplay.text = string.Format("{0}/{1}", health, maxHealth);
+	}
+
+	public bool LoseHealth(int loss)
 	{
 		health -= loss;
-		healthDisplay.text = string.Format ("{0}/50", health);
+		healthDisplay.text = string.Format("{0}/{1}", health, maxHealth);
 		if (health <= 0) {
 			return true;
 		}
 		return false;
 	}
 
-	void GameOver()
+	public void GainWill(int val)
 	{
+		if (will + val > maxHealth)
+			will = maxWill;
+		else
+			will += val;
+		willDisplay.text = string.Format("{0}/{1}", will, maxWill);
+	}
+
+	public bool LoseWill(int loss)
+	{
+		will -= loss;
+		willDisplay.text = string.Format("{0}/{1}", will, maxWill);
+		if (will <= 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void GameOver()
+	{
+		//Peut contenir un Switch(string) et toutes les morts possibles
 		gameOverPanel.SetActive (true);
 	}
 }
