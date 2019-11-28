@@ -8,31 +8,44 @@ public class Camp : MonoBehaviour {
 	public GameObject player;
 	public GameObject campPanel;
 	public GameObject nightCampPanel;
+	public GameObject gameOverPanel;
 	public Button useFoodWaterButton;
 	public Button useFoodButton;
 	public Button useWaterButton;
 	public Button useNothingButton;
 	public GameObject nextButton;
 
+	private GameManager gameManager;
 	private Player playerScript;
+	private GameOver gameOver;
 	private bool death = false;
 
 
 	public void OpenCampPanel()
 	{
-		playerScript = player.GetComponent<Player> ();
-
-		if (playerScript.water > 0 && playerScript.food > 0) {
-			useFoodWaterButton.interactable = true;
-			useFoodButton.interactable = true;
-			useWaterButton.interactable = true;
-		} 
-		else if (playerScript.water > 0)
-			useWaterButton.interactable = true;
-		else if (playerScript.food > 0)
-			useFoodButton.interactable = true;
+		if (gameManager == null)
+			gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		
-		campPanel.SetActive (true);
+
+		if (!gameManager.movementOn && !gameManager.windowOpened) {
+			
+			gameManager.windowOpened = true;
+
+			playerScript = player.GetComponent<Player> ();
+
+			if (playerScript.water > 0 && playerScript.food > 0) {
+				useFoodWaterButton.interactable = true;
+				useFoodButton.interactable = true;
+				useWaterButton.interactable = true;
+			} else if (playerScript.water > 0)
+				useWaterButton.interactable = true;
+			else if (playerScript.food > 0)
+				useFoodButton.interactable = true;
+		
+
+			gameOver = gameOverPanel.GetComponent<GameOver> ();
+			campPanel.SetActive (true);
+		}
 	}
 
 	public void UseFoodWater()
@@ -48,34 +61,38 @@ public class Camp : MonoBehaviour {
 	public void UseOnlyFood()
 	{
 		playerScript.ManageFood (-1);
+		playerScript.GainWill (10);
 		death = playerScript.LoseHealth (10);
 		if (death)
-			playerScript.GameOver();
-		else
-			playerScript.ManageEnergy (playerScript.maxEnergy/2);
+			gameOver.GameOverDisplay ("dehydration");
+		else {
+			playerScript.ManageEnergy (playerScript.maxEnergy / 2);
 			OpenNightCampPanel ();
+		}
 	}
 
 	public void UseOnlyWater()
 	{
 		playerScript.ManageWater (-1);
+		playerScript.GainHealth (10);
 		death = playerScript.LoseWill (10);
 		if (death)
-			playerScript.GameOver();
-		else
-			playerScript.ManageEnergy (playerScript.maxEnergy/2);
+			gameOver.GameOverDisplay ("starvation");
+		else {
+			playerScript.ManageEnergy (playerScript.maxEnergy / 2);
 			OpenNightCampPanel ();
+		}
 	}
 
 	public void UseNothing()
 	{
 		death = playerScript.LoseHealth (10);
 		if (death)
-			playerScript.GameOver();
+			gameOver.GameOverDisplay ("dehydration");
 		else {
 			death = playerScript.LoseWill (10);
 			if (death)
-				playerScript.GameOver();
+				gameOver.GameOverDisplay ("starvation");
 			else
 				playerScript.ManageEnergy (playerScript.maxEnergy/2);
 				OpenNightCampPanel();
@@ -97,6 +114,12 @@ public class Camp : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (4.7f);
 		nextButton.SetActive (true);
+	}
+
+	public void CloseCampPanel()
+	{
+		gameManager.windowOpened = false;
 		campPanel.SetActive (false);
+		nightCampPanel.SetActive (false);
 	}
 }

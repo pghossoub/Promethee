@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
 	[HideInInspector] public GameObject selectedEnvironment;
 	[HideInInspector] public bool movementOn = false;
+	[HideInInspector] public bool windowOpened = false;
 
 	public GameObject gridManager;
 	public Text environmentTitle;

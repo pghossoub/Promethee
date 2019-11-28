@@ -23,7 +23,7 @@ public class GridManager : MonoBehaviour {
 	private int zonePosY;
 	private int squareGridSize;
 
-	// Use this for initialization
+
 	void Start () 
 	{
 		zoneGrid = new GameObject[zoneGridSize][];

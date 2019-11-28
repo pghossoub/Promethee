@@ -26,13 +26,20 @@ public class Player : MonoBehaviour {
 	public GameObject gameOverPanel;
 
 	private GameManager gameManager;
+	private GameOver gameOver;
 	private Animator animatorPlayer;
+	private Image gameOverImageSource;
+
+
 	private bool death = false;
 
 	void Start () 
 	{
 		gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
+		gameOver = gameOverPanel.GetComponent<GameOver> ();
+
 		animatorPlayer = GetComponent<Animator> ();
+
 		healthDisplay.text = string.Format("{0}/{1}", health, maxHealth);
 		willDisplay.text = string.Format("{0}/{1}", will, maxWill);
 		energyDisplay.text = string.Format("{0}/{1}", energy, maxEnergy);
@@ -42,26 +49,27 @@ public class Player : MonoBehaviour {
 
 	public void LaunchMove()
 	{
-		gameManager.movementOn = true;
+		if (!gameManager.movementOn && !gameManager.windowOpened) {
+			
+			gameManager.movementOn = true;
 
-		travelButton.interactable = false;
+			travelButton.interactable = false;
 
-		death = DrinkWater ();
+			death = DrinkWater ();
 
-		if (death)
-			GameOver ();
-		
-		else {
+			if (death)
+				gameOver.GameOverDisplay ("dehydration");
+			else {
 
-			Vector3 targetPosition = gameManager.selectedEnvironment.gameObject.GetComponent<Transform> ().position;
+				Vector3 targetPosition = gameManager.selectedEnvironment.gameObject.GetComponent<Transform> ().position;
 
-			float step = speed * Time.deltaTime;
+				float step = speed * Time.deltaTime;
 
-			FacingAnimation (targetPosition - transform.position);
+				FacingAnimation (targetPosition - transform.position);
 
-			StartCoroutine (Move (targetPosition, step));
+				StartCoroutine (Move (targetPosition, step));
+			}
 		}
-
 	}
 
 	void FacingAnimation(Vector3 direction)
@@ -164,11 +172,5 @@ public class Player : MonoBehaviour {
 			return true;
 		}
 		return false;
-	}
-
-	public void GameOver()
-	{
-		//Peut contenir un Switch(string) et toutes les morts possibles
-		gameOverPanel.SetActive (true);
 	}
 }

@@ -18,7 +18,7 @@ public class Square : Environment {
 	protected override void OnMouseDown()
 	{
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
-			if (!gameManager.movementOn) {
+			if (!gameManager.movementOn && !gameManager.windowOpened) {
 
 				base.OnMouseDown ();
 
