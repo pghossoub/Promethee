@@ -10,9 +10,20 @@ public class GameManager : MonoBehaviour {
 	[HideInInspector] public bool windowOpened = false;
 
 	public GameObject gridManager;
+
+	public Player player;
+
 	public Text environmentTitle;
 	public Text environmentDescription;
 	public Text environmentMetaDescription;
+
+	public GameObject panelModIdentity;
+	public GameObject panelModSupply;
+	public Text healthMod;
+	public Text willMod;
+	public Text energyMod;
+	public Text foodMod;
+	public Text waterMod;
 
 	// Use this for initialization
 	void Start () 
@@ -20,6 +31,8 @@ public class GameManager : MonoBehaviour {
 		GridManager gridManagerScript = gridManager.GetComponent<GridManager> ();
 		gridManagerScript.CreateZoneGrid ();
 		gridManagerScript.CreateSquareGrid ();
+
+		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
 	}
 
 	public void UpdateUIEnvironmentDescription()
